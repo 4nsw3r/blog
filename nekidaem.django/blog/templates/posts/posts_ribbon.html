@@ -1,0 +1,38 @@
+{% extends 'base_generic.html' %}
+{% block title %}Моя лента{% endblock title %}
+{% block content %}
+
+    <h1>Лента новостей</h1>
+
+    {% if ribbon %}
+<ul>
+    {% for item in ribbon %}
+
+        {% if item.author.subscribe.all %}
+
+            {% if item.published %}
+
+            <li>
+
+                {{ item.published }}
+                <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                от {{ item.author.user.username }}
+
+            {% if item.readedpost %}
+            <a href="{{ item.get_absolute_url }}">Прочитано {{ item.readedpost.readed }}</a>
+        {% else %}
+            <a href="{{ item.get_absolute_url }}">Прочитать</a>
+            {% endif %}
+
+            </li>
+
+            {% endif %}
+
+        {% endif %}
+
+    {% endfor %}
+</ul>
+
+{% else %}
+<p>Вы не подписались ни на одного автора...</p>
+{% endif %} {% endblock content %}

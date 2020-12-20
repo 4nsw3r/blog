@@ -1,0 +1,8 @@
+{% extends 'base_generic.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Подтвердите публикацию сообщения{% endblock %}
+{% block headline %}
+<h1>Опубликовать?</h1>
+{% endblock %} {% block content %}
+{% crispy form %}
+{% endblock %}

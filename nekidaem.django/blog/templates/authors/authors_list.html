@@ -1,0 +1,29 @@
+{% extends 'base_generic.html' %}
+{% block title %} Все Авторы {% endblock title %}
+    {% block content %}
+    <h1>Все Авторы</h1>
+    {% if authors_list %}
+    <ul>
+        {% for author in authors_list %}
+        <li>
+            <a href="{{ author.get_absolute_url }}">
+                {{ author.user.username }} {{ author.user.first_name }} {{ author.user.last_name }}</a>
+            {% if user.is_authenticated %}
+                {% if user.id != author.id %}
+                    {% if user_profile not in author.subscribe.all %}
+                        <a href="{% url 'subscribe_this_author' author_id=author.id %}" class="btn btn-default navbar-btn">Подписаться</a>
+                    {% endif %}
+                    {% if user_profile in author.subscribe.all %}
+                        <a href="{% url 'unsubscribe_this_author' author_id=author.id %}" class="btn btn-default navbar-btn">Отписаться</a>
+                    {% endif %}
+
+                {% endif %}
+
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Empty authors</p>
+    {% endif %}
+{% endblock content %}

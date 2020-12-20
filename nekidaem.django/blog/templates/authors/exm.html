@@ -1,0 +1,20 @@
+{% extends 'base_generic.html' %}
+{% block title %}Моя лента{% endblock title %}
+{% block content %}
+    {% if ribbon %}
+<ul>
+    {% for item in ribbon %}
+
+        {% if item.published %}
+            <li>{{ item.published }}
+                <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+                от {{item.author.user.first_name}} {{item.author.user.last_name}}
+                {{ item.author_id }}
+            </li>
+
+        {% endif %}
+    {% endfor %}
+</ul>
+{% else %}
+<p>Вы не подписались ни на одного автора...</p>
+{% endif %} {% endblock content %}

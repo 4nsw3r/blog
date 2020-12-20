@@ -1,0 +1,10 @@
+{% extends 'base_generic.html' %}
+{% block title %} Личный кабинет {% endblock title %}
+{% block content %}
+    {% if author_details %}
+    <p>Пользователь: {{ author_details.user.username }} {{ author_details.user.first_name}} {{ author_details.user.last_name}}</p>
+    <p>Блог: <a href="{% url 'author_blog_list' author_id=author_details.id %}">{{ author_details.blog_name }}</a></p>
+    {% else %}
+    <p>Пока никого нет...</p>
+    {% endif %}
+{% endblock content %}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <title>
+        {% block title %} Главная {% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-4">
+                {% block sidebar %}
+                <ul class="sidebar-nav">
+                    <li><a href="{% url 'index' %}">Главная</a></li>
+                    <li><a href="{% url 'authors' %}">Все авторы</a></li>
+                    {% if user.is_authenticated %}
+
+                        <li><a href="{% url 'author_blog_list' author_id=user.id %}">Мой блог</a></li>
+                        <li><a href="{% url 'ribbon' author_id=user.id %}">Моя лента</a></li>
+                        <li><a href="{% url 'logout' %}" class="btn btn-default navbar-btn">{{user.username}}: Выйти</a></li>
+                    {% else %}
+                        <li><a href="{% url 'login' %}" class="btn btn-default navbar-btn">Войти</a></li>
+
+
+                    {% endif %}
+                </ul>
+                {% endblock %}
+            </div>
+            <div class="col-sm-8">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

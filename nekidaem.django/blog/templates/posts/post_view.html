@@ -1,0 +1,21 @@
+{% extends 'base_generic.html' %}
+{% block title %} Запись {{ post.id }} {% endblock title %}
+{% block content %}
+    {% if post %}
+
+<h1>{{ post.title }}</h1>
+    <p>Дата публикации: {{ post.published }}</p>
+    <p>Автор: {{ post.author.user.username }} {{ post.author.user.first_name }} {{ post.author.user.last_name }}</p>
+    <p>Текст: {{ post.content }}</p>
+        {% if user.id == post.author_id %}
+            <a href="{% url 'delete_post' post.id %}" class="btn navbar-btn">Delete</a><br/>
+            <a href="{% url 'update_post' post.id %}" class="btn navbar-btn">Edit</a>
+        {% endif %}
+        {% if user.id == post.author_id and post.published is None %}
+        <a href="{% url 'publicate_post' pk=post.id %}" class="btn navbar-btn">Опубликовать</a>
+
+
+{% endif %}
+{% else %}
+<p>Empty</p>
+{% endif %} {% endblock content %}
