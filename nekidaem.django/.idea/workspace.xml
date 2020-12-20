@@ -81,15 +81,15 @@
       <workItem from="1608388463423" duration="155000" />
       <workItem from="1608388659298" duration="2820000" />
       <workItem from="1608392917186" duration="2016000" />
-      <workItem from="1608478255376" duration="1877000" />
+      <workItem from="1608478255376" duration="5847000" />
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="722" y="53" key="#Plugins" timestamp="1608478826976">
+    <state x="722" y="53" key="#Plugins" timestamp="1608485852611">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="722" y="53" key="#Plugins/0.0.1536.824@0.0.1536.824" timestamp="1608478826976" />
+    <state x="722" y="53" key="#Plugins/0.0.1536.824@0.0.1536.824" timestamp="1608485852611" />
     <state x="223" y="15" width="1089" height="809" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608393104660">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -142,6 +142,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="939" y="0" width="526" height="561" key="dock-window-1/0.0.1536.824@0.0.1536.824" timestamp="1608317308691" />
+    <state x="813" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1608485682293">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="813" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1608485682293" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
