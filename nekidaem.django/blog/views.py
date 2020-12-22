@@ -1,5 +1,3 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views import View
@@ -8,13 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 
 from .forms import LoginForm, PublicateConfirm, CreatePostForm, SubscribeConfirm, UnsubscribeConfirm
 from .models import Post, Profile
-    # ReadedPost
 
 import datetime
-
-
-# Create your views here.
-# create blog if is none, email, css, docker
 
 
 class CreatePost(CreateView):
@@ -162,7 +155,6 @@ class RibbonBlogList(ListView):
     context_object_name = 'ribbon'
     pk_url_kwarg = "author_id"
     template_name = 'posts/posts_ribbon.html'
-   # queryset = Post.objects.exclude().order_by('-published')
 
     def get_queryset(self):
         author_id = int(self.kwargs['author_id'])
@@ -194,11 +186,3 @@ class LogOutView(RedirectView):
     def get(self, request, *args, **kwargs):
         logout(request)
         return super(LogOutView, self).get(request, *args, **kwargs)
-
-
-# class BlogView(DetailView):
-#     model = Profile
-#     context_object_name = 'blog'
-#     template_name = 'base_generic.html'
-#     queryset = Profile.objects.all()
-#     #queryset = Profile.objects.exclude(blog_name__isnull=True).exclude(blog_name__exact='')
