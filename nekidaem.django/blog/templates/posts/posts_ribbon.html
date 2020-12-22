@@ -18,11 +18,11 @@
                 <a href="{{ item.get_absolute_url }}">{{ item.title }}</a>
                 от {{ item.author.user.username }}
 
-            {% if item.readedpost %}
-            <a href="{{ item.get_absolute_url }}">Прочитано {{ item.readedpost.readed }}</a>
-        {% else %}
-            <a href="{{ item.get_absolute_url }}">Прочитать</a>
-            {% endif %}
+                {% if request.user not in item.read_by.all %}
+                    <small>Не прочитано</small>
+                {% else %}
+                    <small>Прочитано</small>
+                {% endif %}
 
             </li>
 

@@ -20,6 +20,7 @@ from django.contrib import admin
 from blog import views
 import blog.models as blog
 
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('blog/', include('blog.urls')),

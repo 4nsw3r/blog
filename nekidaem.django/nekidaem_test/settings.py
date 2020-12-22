@@ -110,16 +110,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 LOGIN_URL = '/login/'
-CRISPY_TEMPLATE_PACK = 'bootstrap3'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = '***'
-# EMAIL_HOST_USER = '***'
-# EMAIL_HOST_PASSWORD = '***'
+
 
 
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+BASE_URL = 'http://127.0.0.1:8000'
 
 try:
     from blog.settings_local import *

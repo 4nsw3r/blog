@@ -1,9 +1,14 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
+from django.views import View
 from django.views.generic import ListView, UpdateView, DetailView, CreateView, DeleteView, FormView, RedirectView
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import LoginForm, PublicateConfirm, CreatePostForm, SubscribeConfirm, UnsubscribeConfirm
-from .models import Post, Profile, ReadedPost
+from .models import Post, Profile
+    # ReadedPost
 
 import datetime
 
@@ -52,16 +57,14 @@ class ViewPost(DetailView):
     pk_url_kwarg = 'pk'
     template_name = 'posts/post_view.html'
 
+
     def get_context_data(self, *args, **kwargs):
         context = super(ViewPost, self).get_context_data(*args, **kwargs)
-        if self.request.user.is_authenticated:
-            user_id = self.request.user.id
-            post_id = self.kwargs['pk']
-            readed, created = ReadedPost.objects.get_or_create(post_id=post_id,
-                                                               user_id=user_id,
-                                                               defaults={'post_id': post_id, 'user_id': user_id})
-            if created:
-                readed.save()
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+
+        if self.request.user not in post.read_by.all():
+            post.read_by.add(self.request.user)
+
         return context
 
 
@@ -81,7 +84,6 @@ class Subscribe(FormView):
         return super(Subscribe, self).form_valid(form)
 
 
-
 class Unsubscribe(FormView):
     """Форма отписки"""
     form_class = UnsubscribeConfirm
@@ -95,7 +97,6 @@ class Unsubscribe(FormView):
         author = Profile.objects.get(pk=author_id)
         author.subscribe.remove(subscriber)
         author.save()
-        #ReadedPost.objects.filter(user_id=author_id).delete()
 
 
         return super(Unsubscribe, self).form_valid(form)

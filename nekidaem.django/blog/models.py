@@ -10,9 +10,7 @@ from django.urls import reverse
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     blog_name = models.CharField(max_length=1024, verbose_name='Название блога')
-    #subscribes = models.ManyToManyField(User, blank=True, symmetrical=False, related_name='subscribe')  # Подписки
     subscribes = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='subscribe')  # Подписки
-    # mail = models.EmailField(null=True, blank=True)
 
     def get_absolute_url(self):
         return '/author/%i/' % self.pk
@@ -30,6 +28,7 @@ class Post(models.Model):
     published = models.DateTimeField(blank=True, null=True, verbose_name='Опубликовано')
     content = models.TextField(verbose_name='Контент')
     author = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='author', verbose_name='Автор')
+    read_by = models.ManyToManyField(User, related_name='read_articles', blank=True)
 
     def get_absolute_url(self):
         return '/post/%i/' % self.pk
@@ -41,42 +40,28 @@ class Post(models.Model):
         ordering = ('-published',)
 
 
-# @receiver(post_save, sender=Post)
-# def send_notify_about_new_article(sender, instance, created, **kwargs):
-#     if created:
-#         for sub in instance.author.subscribes.all():
-#             if sub.mail:
-#                 send_mail(
-#                     '"{}" - new post in {} {}.'.format(instance.title,
-#                                                         instance.author.user.username,
-#                                                         instance.author.blog_name),
-#                     'Link to new post: {}'.format(
-#                         settings.BASE_URL + reverse('blog:post_detail', args=[instance.pk])),
-#                     'street9507@yandex.ru',
-#                     [sub.mail],
-#                     fail_silently=False,
-#                 )
-# @receiver(post_save, sender=Post, dispatch_uid='update_post_blog')
-# def update_post(sender, instance, **kwargs):
-#     sender_profile = Profile.objects.get(pk=instance.author_id)
-#     from_email = sender_profile.user.email
-#     message = f'Пользователь {sender_profile.user.first_name} {sender_profile.user.last_name} разместил/изменил запись в своём блоге.'
-#     subject = f'Новая/изменённая запись в блоге {sender_profile.user.first_name} {sender_profile.user.last_name}'
-#     recipient_list = [profile.user.email for profile in sender_profile.profile_set.all()]
-#     # Пока забьём...
-#     # connection = mail.get_connection()
-#     # print('models.update_post:', connection)
-#     # send_mail(subject, message, from_email, recipient_list,)
-#     # connection.send_messages([mail.EmailMessage(subject, message, from_email, recipient_list,),])
-#     # connection.close()
-#     # Не пошло. По уму тут асинхронка нужна...
+# send mail
+@receiver(post_save, sender=Post)
+def send_notify_about_new_article(sender, instance, created, **kwargs):
+    if created:
+        for sub in instance.author.subscribes.all():
+            if sub.user.email:
+                send_mail(
+                    '"{}" - new post in {} {}.'.format(instance.title,
+                                                        instance.author.user.username,
+                                                        instance.author.blog_name),
+                    'Link to new post: {}'.format(
+                        settings.BASE_URL + reverse('view_post', args=[instance.pk])),
+                    'testnekidaem@gmail.com',
+                    [sub.user.email],
+                    fail_silently=False,
+                )
 
-
-class ReadedPost(models.Model):
-    post = models.OneToOneField(Post, models.CASCADE)
-    user = models.ForeignKey(Profile, models.CASCADE)
-    readed = models.DateTimeField(auto_now=True, verbose_name='Прочитано')
-
-    class Meta:
-        unique_together = (('post', 'user'),)
+# class ReadedPost(models.Model):
+#     post = models.OneToOneField(Post, models.CASCADE)
+#     user = models.ForeignKey(Profile, models.CASCADE)
+#     readed = models.DateTimeField(auto_now=True, verbose_name='Прочитано')
+#
+#     class Meta:
+#         unique_together = (('post', 'user'),)
 
