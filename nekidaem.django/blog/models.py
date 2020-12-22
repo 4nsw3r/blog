@@ -56,12 +56,3 @@ def send_notify_about_new_article(sender, instance, created, **kwargs):
                     [sub.user.email],
                     fail_silently=False,
                 )
-
-# class ReadedPost(models.Model):
-#     post = models.OneToOneField(Post, models.CASCADE)
-#     user = models.ForeignKey(Profile, models.CASCADE)
-#     readed = models.DateTimeField(auto_now=True, verbose_name='Прочитано')
-#
-#     class Meta:
-#         unique_together = (('post', 'user'),)
-
